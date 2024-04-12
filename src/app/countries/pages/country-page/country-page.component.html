@@ -1,0 +1,65 @@
+
+@if(_country){
+
+  <div>
+
+    <div class="row">
+      <div class="col-12">
+        <h2>País: <strong>{{ _country.name.common }}</strong></h2>
+        <hr>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <h3>Bandera</h3>
+        <img [src]="_country.flags.svg" [alt]="_country.name.common" class="img-thumbnail">
+      </div>
+      <div class="col">
+        <h3>Información</h3>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Población: {{ _country.population | number }}</strong>
+          </li>
+          <li class="list-group-item">
+            <strong>Código: {{ _country.cca3 }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col">
+        <h3>Traducciones</h3>
+        <div class="d-flex flex-wrap">
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['ara'].common }}
+          </span>
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['spa'].common }}
+          </span>
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['per'].common }}
+          </span>
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['kor'].common }}
+          </span>
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['cym'].common }}
+          </span>
+          <span class="badge bg-primary m-1">
+            {{ _country.translations['rus'].common }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+}@else{
+
+  <div class="alert alert-info text-center">
+    Espere por favor
+  </div>
+
+}
