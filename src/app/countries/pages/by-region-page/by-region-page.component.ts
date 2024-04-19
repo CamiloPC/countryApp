@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SearchboxComponent } from '../../../shared/components/searchbox/search-box.component';
 import { CountryTableComponent } from '../../components/country-table/country-table.component';
-import { Country } from '../../interfaces/country';
+import { Country } from '../../interfaces/country.interface';
 import { CountriesService } from '../../services/countries.service';
+import { Region } from '../../interfaces/region.type';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+
 
 @Component({
   selector: 'app-by-region-page',
@@ -11,21 +14,35 @@ import { CountriesService } from '../../services/countries.service';
   imports: [
     CommonModule,
     SearchboxComponent,
-    CountryTableComponent
+    CountryTableComponent,
+    LoadingSpinnerComponent
   ],
   templateUrl: './by-region-page.component.html',
   styleUrl: './by-region-page.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ByRegionPageComponent {
+export class ByRegionPageComponent implements OnInit{
 
   public _countries: Country[] = [];
+  public isLoading: boolean = false;
+  public regions: Region[] = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
+  public selectedRegion?: Region;
 
   constructor ( private countriesService : CountriesService ) {}
 
-  searchByRegion (region: string): void {
+
+  searchByRegion (region: Region): void {
+
+    this.selectedRegion = region;
+    this.isLoading = true;
+
     this.countriesService.searchRegion( region ).subscribe( countries => {
       this._countries = countries;
+      this.isLoading = false;
     } );
+  }
+
+  ngOnInit(): void {
+    this._countries = this.countriesService.cacheStore.byRegion.countries;
+    this.selectedRegion = this.countriesService.cacheStore.byRegion.region;
   }
  }

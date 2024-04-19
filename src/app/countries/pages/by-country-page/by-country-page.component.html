@@ -6,8 +6,10 @@
 
     <!-- SearchBox -->
     <shared-search-box
-      (onValue)="searchByCountry($event)"
-      placeholder = "Buscar por país"></shared-search-box>
+      (onDebounce)="searchByCountry($event)"
+      [initialValue]="initValue"
+      placeholder = "Buscar por país">
+    </shared-search-box>
 
   </div>
 </div>
@@ -16,6 +18,10 @@
   <div class="col">
 
     <hr>
+
+    @if (isLoading) {
+      <shared-loading-spinner></shared-loading-spinner>
+    }
 
     <countries-table [countries]="_countries"> </countries-table>
 
